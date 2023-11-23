@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { RequestLogin } from 'src/app/resources/models/RequestLogin';
 import { AlertService } from 'src/app/resources/services/alert.service';
 import { LoginService } from 'src/app/resources/services/login.service';
@@ -14,17 +15,15 @@ export class LoginComponent implements OnInit{
 
   constructor(
     private loginService: LoginService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
 
   public doLogin() : void {
-    this.loginService.doLogin(this.requestLogin).subscribe((data) => {
-      this.alertService.success('Seja bem-vindo!');
-    },
-    (httpError) => {
-      this.alertService.error(httpError.error.message);
-    });
+    this.loginService.doLogin(this.requestLogin).subscribe(
+      (data) => this.router.navigate(['dashboard'])
+    );
   }
 }
